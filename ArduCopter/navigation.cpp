@@ -36,11 +36,31 @@ void Copter::calc_wp_distance()
         break;
 
     case GUIDED:
-        if (guided_mode == Guided_WP) {
+		//	added by zhangyong for ABpoint mode spraying controlling
+		/*if (guided_mode == Guided_WP) {
             wp_distance = wp_nav->get_wp_distance_to_destination();
             break;
+        }*/
+		//	modified end
+        if (guided_mode == Guided_WP)
+		{
+            wp_distance = wp_nav->get_wp_distance_to_destination();
+            
         }
+		else
+		{
+			wp_distance = 0;
+		}
+		break;
+
+		//	added by zhangyong for ABpoint mode spraying controlling
         // no break
+
+	case ABMODE_RF:
+			wp_distance = wp_nav->get_wp_distance_to_destination();
+		break;
+		//	added end
+		
     default:
         wp_distance = 0;
         break;
@@ -48,7 +68,7 @@ void Copter::calc_wp_distance()
 
 	//	added by zhangyong for long edge or short edge judge 20180705
 	//	a new destination has just been set
-	if(AUTO == control_mode)
+	if(AUTO == control_mode || ABMODE_RF == control_mode)
 	if(1 == wp_nav->get_wpnav_destination_set())
 	{
 #if SPRAYER == ENABLED

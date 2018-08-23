@@ -322,10 +322,12 @@ public:
         _flags.nav_cmd_breakpoint = true;
         _flags.nav_cmd_manual_obstacle_avoidance = false;
         _flags.breakpoint_valid = true;
+        _flags.send_breakpoint = false;
 
         memset( & _cmd_yaw, 0, sizeof(_cmd_yaw));
         memset( & _cmd_speed, 0, sizeof(_cmd_speed));
         memset( & _cmd_do_spray, 0, sizeof(_cmd_do_spray));
+        memset( & _nav_breakpoint_cmd, 0, sizeof(_nav_breakpoint_cmd));
     }
 
     ///
@@ -498,7 +500,22 @@ public:
     void update_spray_configuration();
 
     void find_first_waypoint();
-	
+
+//baiyang added in 20180817
+    void set_send_breakpoint(bool b) { _flags.send_breakpoint = b; }
+
+    bool get_send_breakpoint() const { return _flags.send_breakpoint; }
+
+    int8_t get_insert_mask() { return insert_mask; }
+
+    /// get_nav_breakpoint_cmd - returns the breakpoint nav command
+    const Mission_Command& get_nav_breakpoint_cmd() const { return _nav_breakpoint_cmd; }
+
+    int16_t get_breakpoint_index() { return _breakpoint.index; }
+
+    int8_t get_breakpoint_offset() { return _breakpoint.offset; }
+//added end
+
     // user settable parameters
     static const struct AP_Param::GroupInfo var_info[];
 
@@ -514,6 +531,7 @@ private:
         uint8_t nav_cmd_breakpoint     : 1; // true if it need continues to work after flying to the breakpoint
         uint8_t nav_cmd_manual_obstacle_avoidance     : 1; // true if it is in manual obstacle avoidance mode
         uint8_t breakpoint_valid       : 1; // true if the breakpoint is available
+        uint8_t send_breakpoint       : 1; // true if the breakpoint should be sended 
     } _flags;
 
     ///
@@ -581,11 +599,13 @@ private:
     struct Mission_Command  _cmd_yaw;   //Used to regenerate routes for breakpoints
     struct Mission_Command  _cmd_speed; //Used to regenerate routes for breakpoints
     struct Mission_Command  _cmd_do_spray; //Used to regenerate routes for breakpoints
+    struct Mission_Command  _nav_breakpoint_cmd; //Used to regenerate routes for breakpoints
     struct Breakpoint		  _breakpoint;
     uint16_t                _prev_nav_cmd_id;       // id of the previous "navigation" command. (WAYPOINT, LOITER_TO_ALT, ect etc)
     uint16_t                _prev_nav_cmd_index;    // index of the previous "navigation" command.  Rarely used which is why we don't store the whole command
     uint16_t                _prev_nav_cmd_wp_index; // index of the previous "navigation" command that contains a waypoint.  Rarely used which is why we don't store the whole command
     uint16_t                _first_nav_cmd_index;   // The first navigation waypoint in the route
+    int8_t              	  insert_mask;
 
     // jump related variables
     struct jump_tracking_struct {

@@ -579,7 +579,6 @@ void Copter::three_hz_loop()
 
 	Log_Write_land_detector(&log_land_detector);
 
-
 //#if BCBMONITOR == ENABLE
 //bcbmonitor.read();
 //#endif
@@ -807,6 +806,11 @@ void Copter::one_hz_loop()
 		gcs().send_text(MAV_SEVERITY_WARNING,"Warning: log numbers exceed max");
 	}
 #endif
+//sunkaidao added in 180829
+#if AIRCHECK== ENABLED
+  gassensor.update(serial_manager,DataFlash);
+#endif
+
 
 }
 

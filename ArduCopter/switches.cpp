@@ -675,20 +675,25 @@ void Copter::do_aux_switch_function(int8_t ch_function, uint8_t ch_flag)
 
 		case AUXSW_AUTO_HEIGHT:
 			
-		
 			if (ch_flag == AUX_SWITCH_HIGH) 
 			{
 				height_replace_switch = 1;
 				//	modified by ZhangYong for current_loc.alt differs from inertial_nav.get_altitude()
-				height_replace_alt = inertial_nav.get_altitude();
-			
+				height_replace_alt_home = inertial_nav.get_altitude();
+		
+				if(rangefinder_alt_ok())
+				{
+					height_replace_alt_terrain = rangefinder_state.alt_cm;
+			 	}
+					
 				set_mode(AUTO, MODE_REASON_TX_COMMAND);
 			}
 			else if(ch_flag == AUX_SWITCH_LOW)
 			{
 				height_replace_switch = 0;
-				height_replace_alt = 0;
-			
+				height_replace_alt_home = 0;
+				height_replace_alt_terrain = 0;
+					
 				if (control_mode == AUTO) 
 				{
 					reset_control_switch();
@@ -764,6 +769,11 @@ void Copter::do_aux_switch_function(int8_t ch_function, uint8_t ch_flag)
 	                break;
 	            case AUX_SWITCH_LOW:
 	                rf_abmode.abmode_set_pos_a();
+					//	added by zhangyong for spraying operation 20180823
+					//	sprayer.run(true);
+					//	sprayer.test_pump(!motors->armed());
+					//	added end
+					
 	                break;
             }
             break;

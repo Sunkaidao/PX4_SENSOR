@@ -178,6 +178,11 @@
 #include <AP_NewBroadcast/AP_NewBroadcast.h>
 #endif
 //added end
+//added by sunkaidao in 20180829
+#if AIRCHECK == ENABLED
+#include  <AP_Gassensor/AP_Gassensor.h>
+#endif
+//added end
 
 
 class Copter : public AP_HAL::HAL::Callbacks {
@@ -777,9 +782,10 @@ private:
 	//	added by ZhangYong 20171114
 	//	symbol for height replace in auto mode
 	uint8_t height_replace_switch;
-	//	height want to replace centimeter relative
-	int32_t height_replace_alt;
-	
+	//	height want to replace centimeter relative above home
+	int32_t height_replace_alt_home;
+	//	height want to replace centimeter relative above home
+	int32_t height_replace_alt_terrain;
 	//	added end
 
 #if PROJECTGKXN == ENABLED
@@ -792,6 +798,13 @@ private:
 #if BCBMONITOR == ENABLED
 	AC_BCBMonitor bcbmonitor;
 #endif
+
+// added by sunkaidao in 180829
+#if AIRCHECK == ENABLED
+	AP_Gassensor gassensor;
+#endif
+// added end
+
 
 //baiyang added in 20180206
 #if NEWBROADCAST == ENABLED
@@ -946,7 +959,13 @@ private:
     void send_simstate(mavlink_channel_t chan);
     void send_vfr_hud(mavlink_channel_t chan);
     void send_rpm(mavlink_channel_t chan);
+    void send_mission_breakpoint(mavlink_channel_t chan);
+    void handle_command_ack(mavlink_message_t *msg);
+//sunkaidao added in 180904
+	void send_sensor(mavlink_channel_t chan);
+//sunkaidao added end 
 
+	
 
     void rpm_update();
 #if BUTTON_ENABLED == ENABLED	

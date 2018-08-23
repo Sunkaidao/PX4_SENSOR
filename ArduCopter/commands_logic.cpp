@@ -346,8 +346,17 @@ void Copter::do_takeoff(const AP_Mission::Mission_Command& cmd)
 	lcl_location.alt = cmd.content.location.alt;
 #if PROJECTGKXN
 	
-	if((1 == height_replace_switch) && (0 != height_replace_alt))
-		lcl_location.alt = height_replace_alt;
+	if((1 == height_replace_switch) && ((0 != height_replace_alt_home) || (0 != height_replace_alt_terrain)))
+	{
+		if(1 == lcl_location.flags.terrain_alt && rangefinder_alt_ok())
+		{
+			lcl_location.alt = height_replace_alt_terrain;
+		}
+		else
+		{
+			lcl_location.alt = height_replace_alt_home;
+		}
+	}
 #endif
 	//	added end
 
@@ -384,12 +393,22 @@ void Copter::do_nav_wp(const AP_Mission::Mission_Command& cmd)
 #if PROJECTGKXN
 	if(\
 		(1 == height_replace_switch) && \
-		(0 != height_replace_alt) && \
+		(0 != height_replace_alt_home) &&\
 		((Location_Class::ALT_FRAME_ABOVE_ORIGIN == target_loc.get_alt_frame()) || (Location_Class::ALT_FRAME_ABOVE_HOME == target_loc.get_alt_frame()))\
 	)
 	{
-		target_loc.set_alt_cm(height_replace_alt, target_loc.get_alt_frame());
+		target_loc.set_alt_cm(height_replace_alt_home, target_loc.get_alt_frame());
 	}		
+	
+	if(\
+		(1 == height_replace_switch) && \
+		(0 != height_replace_alt_terrain) &&\
+		(Location_Class::ALT_FRAME_ABOVE_TERRAIN == target_loc.get_alt_frame()) && \
+		(rangefinder_alt_ok())\
+	)
+	{
+		target_loc.set_alt_cm(height_replace_alt_terrain, target_loc.get_alt_frame());
+	}
 #endif	
     //	added end
     

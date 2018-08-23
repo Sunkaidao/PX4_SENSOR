@@ -109,8 +109,11 @@ enum ap_message {
 	MSG_DA_GPS2_STA,
 //#endif
 	MSG_NEWBROADCAST_FLIGHT_STA,
-    MSG_LAST // MSG_LAST must be the last entry in this enum
-
+	MSG_COMMAND_INT,
+    MSG_LAST,// MSG_LAST must be the last entry in this enum
+//sunkaidao added in 180904
+	MSG_SENSOR
+//added end
 };
 
 enum pld_status
@@ -118,6 +121,7 @@ enum pld_status
 	MSG_PLD_STATUS_FLOWMETER = 0b00000001,
 	MSG_PLD_STATUS_SPRAYER = 0b00000010,
 	MSG_PLD_STATUS_PMBUS = 0b00000100,
+	MSG_PLD_STATUS_AS = 0b00001000,
 	MSG_PLD_STATUS_LAST
 };
 

@@ -286,6 +286,8 @@ void AP_Mission::update()
 					if (write_cmd_to_storage(b_index,cmd))
 					{
 						clear_b_index_and_new_airline();
+						_nav_breakpoint_cmd = cmd;
+						set_send_breakpoint(true);
 					}
 				}
 		     }
@@ -428,6 +430,8 @@ bool AP_Mission::set_current_cmd(uint16_t index)
 				if (write_cmd_to_storage(b_index,cmd_b))
 				{
 					clear_b_index_and_new_airline();
+					_nav_breakpoint_cmd = cmd_b;
+					set_send_breakpoint(true);
 				}
 			}
     	}
@@ -1858,7 +1862,7 @@ int8_t AP_Mission::regenerate_airline()
     Mission_Command cmd;
     Mission_Command cmd_b;
     int8_t num_insert = 1;
-    int8_t insert_mask = 1;
+    insert_mask = 1;
 
     if (_cmd_speed.id == MAV_CMD_DO_CHANGE_SPEED)
     {
@@ -1959,6 +1963,7 @@ int8_t AP_Mission::regenerate_airline()
     cmd_b.index = _breakpoint.index + offset;
     cmd_b.content.location.lat = _breakpoint.lat;
     cmd_b.content.location.lng = _breakpoint.lng;
+    _nav_breakpoint_cmd = cmd_b;
     _breakpoint.offset.set_and_save_ifchanged(offset);
 
     if (write_cmd_to_storage(_breakpoint.index + offset,cmd_b))
@@ -1986,6 +1991,8 @@ int8_t AP_Mission::regenerate_airline()
 	
     _cmd_total.set_and_save_ifchanged(_cmd_total_temp);
     _breakpoint.new_airline.set_and_save_ifchanged(1);
+    set_send_breakpoint(true);
+	
     return true;
 }
 

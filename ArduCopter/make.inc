@@ -70,3 +70,4 @@ LIBRARIES += AP_Task
 LIBRARIES += AP_PtzControl
 LIBRARIES += cJSON
 LIBRARIES += AP_NewBroadcast
+LIBRARIES += AP_Gassensor

@@ -139,6 +139,8 @@ public:
 
 	void update_rgb();
 	void trigger_buzzer_and_rgb(int8_t type);
+
+	void update_spray_dist();
 	
 	static const struct AP_Param::GroupInfo     var_info[];
 protected:
@@ -173,6 +175,7 @@ private:
 	Vector3d p_2;  //unit: m
 	Location target_wp;
 	Location home_loc;
+	//	added by zhangyong for
 };
 
 #endif

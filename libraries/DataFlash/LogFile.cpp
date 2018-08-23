@@ -330,6 +330,32 @@ void DataFlash_Class::Log_Write_Target_WP(const Location &target_loc,int32_t ind
 }
 //added end
 #endif
+/*
+void DataFlash_Class::Log_Write_Sensor(float sensor1,float sensor2,float sensor3,float sensor4,float sensor5,
+	float sensor6,float sensor7,float sensor8,float sensor9,float sensor10,
+	float sensor11,float sensor12)
+	*/
+void DataFlash_Class::Log_Write_Sensor(float sensor[])
+{
+	struct log_Sensor pkt={
+			LOG_PACKET_HEADER_INIT((uint8_t)(LOG_SENSOR_MSG)),
+				time_us 	  : AP_HAL::micros64(),
+				CO			:sensor[0],
+				SO2 		:sensor[1],
+				NO2 		:sensor[2],
+				O3			:sensor[3],
+				X1			:sensor[4],
+				X2			:sensor[5],
+				CO2 		:sensor[6],
+				PM1_0		:sensor[7],
+				PM2_5		:sensor[8],
+				PM10		:sensor[9],
+				TEMP		:sensor[10],
+				HUM 		:sensor[11],
+				};
+		WriteBlock(&pkt, sizeof(pkt));
+		
+}
 
 // Write an RFND (rangefinder) packet
 void DataFlash_Class::Log_Write_RFND(const RangeFinder &rangefinder)
@@ -350,7 +376,7 @@ void DataFlash_Class::Log_Write_RFND(const RangeFinder &rangefinder)
         orient2       : s1 ? s1->orientation() : ROTATION_NONE,
         dist3         : s2 ? s2->distance_cm() : (uint16_t)0,
         orient3       : s2 ? s2->orientation() : ROTATION_NONE,
-				error1        : s0 ? s0->RangeFinder_error_count() : (uint16_t)0,
+		error1        : s0 ? s0->RangeFinder_error_count() : (uint16_t)0,
         notarget1     : s0 ? s0->RangeFinder_no_target_count() : (uint16_t)0,
         unvaildnum1   : s0 ? s0->RangeFinder_unvalid_num(): (uint16_t)0,
         condition1    : s0 ? s0->RangeFinder_message_condition(): (uint8_t)0,

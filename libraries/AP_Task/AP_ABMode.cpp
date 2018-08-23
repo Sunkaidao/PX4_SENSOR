@@ -110,6 +110,7 @@ bool AP_ABMode::init()
 	
 	_initialised = true; 
 
+
 	return true;
 }
 
@@ -161,6 +162,15 @@ bool AP_ABMode::abmode_set_pos_a(void)
 		gcs().send_text(MAV_SEVERITY_CRITICAL,"ABMODE: Set A point success");
 
 		trigger_buzzer_and_rgb(BUZZER_AND_RGB);
+
+
+		//	added by zhangyong 20180824, begin to spraying 20180824
+		if(!copter.sprayer.get_running())
+		{
+			copter.sprayer.run(true);
+			copter.sprayer.test_pump(!copter.motors->armed());
+		}
+		//	added end
 
 		return true;
 	}
@@ -879,6 +889,12 @@ void AP_ABMode:: run()
 					if (copter.wp_nav->reached_wp_destination()) {
       					timer = AP_HAL::millis64();
 						step = 1;
+
+						if(!copter.sprayer.get_running())
+						{
+							copter.sprayer.run(true);
+							copter.sprayer.test_pump(!copter.motors->armed());
+						}
     				}
 					break;
 				case 1:
@@ -969,6 +985,12 @@ void AP_ABMode::update_rgb()
 		rgb_timer++;
 	}
 }
+
+void AP_ABMode::update_spray_dist()
+{
+	width = (copter.sprayer.get_unspray_dist()-50)/100.0f;
+}
+
 void AP_ABMode::update()
 {
 	if (!_initialised ) 
@@ -976,6 +998,7 @@ void AP_ABMode::update()
     	return;
   	}
 
+	update_spray_dist();
 	update_rgb();
 	set_direction_from_rc_roll();
     
