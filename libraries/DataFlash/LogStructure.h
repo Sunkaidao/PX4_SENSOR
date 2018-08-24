@@ -717,6 +717,24 @@ struct PACKED log_PADCMD {
 };
 //	added end
 
+//	added by sunkaidao 20180904
+struct PACKED log_Sensor {
+    LOG_PACKET_HEADER;
+	uint64_t time_us;
+	float CO;
+	float SO2;
+	float NO2;
+	float O3;
+	float X1;
+	float X2;
+	float CO2;
+	float PM1_0;
+	float PM2_5;
+	float PM10;
+	float TEMP;
+	float HUM;
+};
+//	added end
 
 
 
@@ -1206,6 +1224,7 @@ struct PACKED log_Proximity {
 #define PMBUS_FMT	"QBBBBBBBBHHHHHH"
 
 
+
 /*
 // message types for common messages
 enum LogMessages {
@@ -1529,7 +1548,11 @@ enum LogMessages {
 	LOG_PADCMD_MSG,
 	LOG_MTR_MSG,
 	LOG_CONTROL_MSG,
-	LOG_GKPROX_MSG
+	LOG_GKPROX_MSG,
+
+//sunkaidao added in 180904
+	LOG_SENSOR_MSG
+//added end
 };
 
 
@@ -1824,6 +1847,8 @@ Format characters in the format string for binary log messages
       "RTK2", RTK_FMT, RTK_LABELS }, \
     { LOG_TWP_MSG, sizeof(log_TWP), \
       "TWP",  TWP_FMT, TWP_LABELS }, \
+	{ LOG_SENSOR_MSG, sizeof(log_Sensor), \
+	  "SEN",  "Qffffffffffff",  "TimeUS,CO,SO2,NO2,O3,X1,X2,CO2,PM1,PM25,PM10,TEMP,HUM" }, \
     { LOG_GPSB_MSG, sizeof(log_GPS), \
       "GPSB", GPS_FMT, GPS_LABELS }, \
     { LOG_GPA_MSG,  sizeof(log_GPA), \
@@ -2041,6 +2066,7 @@ Format characters in the format string for binary log messages
       "RALY", "QBBLLh", "TimeUS,Tot,Seq,Lat,Lng,Alt" }, \
 	{ LOG_LD_MSG, sizeof(log_Land_Detector), \
       "LD", "QBBBBffB", "TimeUS,lc,mlc,mtl,atm,al,dr,r" }
+
 
 // #if SBP_HW_LOGGING
 #define LOG_SBP_STRUCTURES \

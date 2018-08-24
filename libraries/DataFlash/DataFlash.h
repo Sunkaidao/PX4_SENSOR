@@ -244,8 +244,9 @@ public:
     //	added end
 //#endif
 
-	
-
+	//sunkaidao added in 180904
+	void Log_Write_Sensor(float sensor[]);
+	//added end 
     void Log_Write(const char *name, const char *labels, const char *fmt, ...);
 
     // This structure provides information on the internal member data of a PID for logging purposes

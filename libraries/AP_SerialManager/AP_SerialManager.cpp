@@ -285,6 +285,15 @@ void AP_SerialManager::init()
 					break;
 				//added end
 #endif
+//sunkaidao added in 180829
+#if AIRCHECK==ENABLED
+				case SerialProtocol_Airsensor:
+					state[i].baud = AP_SERIALMANAGER_AIRSENSOR_BAUD  / 1000;	 // update baud param in case user looks at it
+					state[i].uart->begin(map_baudrate(state[i].baud),
+					AP_SERIALMANAGER_AIRSENSOR_BUFSIZE_RX,
+														AP_SERIALMANAGER_AIRSENSOR_BUFSIZE_TX);
+									break;	
+#endif	
 
 				default:
 					//	added by ZhangYong
