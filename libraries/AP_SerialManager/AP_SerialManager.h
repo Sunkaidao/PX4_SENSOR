@@ -135,6 +135,13 @@
 #define AP_SERIALMANAGER_RADAR_GKXN_BUFSIZE_RX          128
 #define AP_SERIALMANAGER_RADAR_GKXN_BUFSIZE_TX          128
 #endif
+//sunkaidao added in 180829
+#if AIRCHECK==ENABLE
+#define AP_SERIALMANAGER_AIRSENSOR_BAUD                9600
+#define AP_SERIALMANAGER_AIRSENSOR_BUFSIZE_RX          128
+#define AP_SERIALMANAGER_AIRSENSOR_BUFSIZE_TX          128
+#endif
+//added end
 
 
 
@@ -172,6 +179,10 @@ public:
 //#if PROJECTGKXN==ENABLE
         SerialProtocol_Radar_GKXN=21 ,
 //#endif
+//sunkaidao added in 180829
+		SerialProtocol_Airsensor=22,
+
+//added end
 //#if CHARGINGSTATION == ENABLED
         //biayang added in 20170612
         SerialProtocol_ChargingStation = 68,         //xiamen Charging Station
