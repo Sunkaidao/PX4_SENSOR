@@ -283,6 +283,7 @@ void AP_Gassensor::get_sensor12()
 		Sensor12_data[10],Sensor12_data[11],Sensor12_data[12]);
 	*/
 	}
+
 	//else
 		//uart->printf("error %f\n",Sensor12_data[12]);
 }
