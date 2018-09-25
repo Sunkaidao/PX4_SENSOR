@@ -285,6 +285,8 @@ void AP_Gassensor::get_sensor12()
 	//else
 		//uart->printf("error %f\n",Sensor12_data[12]);
 }
+
+>>>>>>> 1f09746c8f9456dcc3eec9d7c125f5b9b0104e6f
 void AP_Gassensor::log(DataFlash_Class DataFlash)
 {
 		DataFlash.Log_Write_Sensor(Sensor12_data);
