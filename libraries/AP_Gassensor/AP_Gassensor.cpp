@@ -274,8 +274,16 @@ void AP_Gassensor::get_sensor12()
 		Sensor12_data[12]=merge(rx_data12[28],rx_data12[27]);
 	if(rx_data12[23]==0x80)
 		Sensor12_data[10]=Sensor12_data[10]*(-1);
-
+	//uart->printf("%d %d",rx_data[3],rx_data[4]);
+	/*
+		uart->printf("\n%.2f\n%.3f\n%.3f\n%.3f\n%.0f\n%.0f\n%.0f\n%.0f\n%.0f\n%.0f\n%.1f\n%.1f\n%f ",
+		Sensor12_data[0],Sensor12_data[1],Sensor12_data[2],Sensor12_data[3],Sensor12_data[4],
+		Sensor12_data[5],Sensor12_data[6],Sensor12_data[7],Sensor12_data[8],Sensor12_data[9],
+		Sensor12_data[10],Sensor12_data[11],Sensor12_data[12]);
+	*/
 	}
+	//else
+		//uart->printf("error %f\n",Sensor12_data[12]);
 }
 void AP_Gassensor::log(DataFlash_Class DataFlash)
 {
