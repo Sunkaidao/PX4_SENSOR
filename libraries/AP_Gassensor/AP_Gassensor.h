@@ -61,7 +61,6 @@ private:
 	uint16_t Sensor6_float[6];//03 00 --Decimal point
 	uint16_t Sensor6_warning[6];//03 00 -- warning
 	
-
 	uint32_t Sen_flag;
 	uint8_t rxdata12_len;
 	uint8_t rxdata6_len;
