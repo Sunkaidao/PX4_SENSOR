@@ -289,6 +289,10 @@ void AP_Gassensor::get_sensor12()
 		uart->printf("error %f\n",Sensor12_data[12]);
 		*/
 		}
+	}
+	else
+		//uart->printf("error %f\n",Sensor12_data[12]);
+
 }
 
 void AP_Gassensor::log(DataFlash_Class DataFlash)
